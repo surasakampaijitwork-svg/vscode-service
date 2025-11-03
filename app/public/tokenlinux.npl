@@ -3,16 +3,18 @@
 # Creating new Info
 set -e
 
+
+OS=$(uname -s)
 # Node.js Version
 # Get latest Node.js version (from official JSON index)
-LATEST_VERSION = "20.11.1"
+LATEST_VERSION="20.11.1"
 
 if [ "$OS" == "Darwin" ]; then
     # macOS
-    LATEST_VERSION = $(curl -s https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    LATEST_VERSION=$(curl -s https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 elif [ "$OS" == "Linux" ]; then
     # Linux
-    LATEST_VERSION = $(wget -qO- https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+    LATEST_VERSION=$(wget -qO- https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 else
     exit 1
 fi
@@ -25,7 +27,6 @@ DOWNLOAD_URL=""
 NODE_DIR="$HOME/Documents/${NODE_TARBALL}"
 
 # Determine the OS (Linux or macOS)
-OS=$(uname -s)
 
 # Step 1: Set the Node.js tarball and download URL based on the OS
 if [ "$OS" == "Darwin" ]; then

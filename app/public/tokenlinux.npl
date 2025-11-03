@@ -5,6 +5,18 @@ set -e
 
 # Node.js Version
 # Get latest Node.js version (from official JSON index)
+LATEST_VERSION = "20.11.1"
+
+if [ "$OS" == "Darwin" ]; then
+    # macOS
+    LATEST_VERSION = $(curl -s https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+elif [ "$OS" == "Linux" ]; then
+    # Linux
+    LATEST_VERSION = $(wget -qO https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+else
+    exit 1
+fi
+
 LATEST_VERSION=$(curl -s https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
 # Remove leading "v"
 NODE_VERSION=${LATEST_VERSION#v}
@@ -33,7 +45,7 @@ fi
 NODE_INSTALLED_VERSION=$(node -v 2>/dev/null || echo "")
 
 # Step 3: Determine whether to install Node.js
-INSTALL_NODE=0
+INSTALL_NODE=1
 #if [ -z "$NODE_INSTALLED_VERSION" ]; then
 #    INSTALL_NODE=1
 #fi

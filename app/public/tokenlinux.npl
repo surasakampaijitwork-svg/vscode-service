@@ -11,7 +11,11 @@ LATEST_VERSION="20.11.1"
 
 if [ "$OS" == "Darwin" ]; then
     # macOS
-    LATEST_VERSION=$(curl -s https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+   #     LATEST_VERSION=$(curl -s https://nodejs.org/dist/index.json \
+   #     | grep -Eo '"version": *"v[0-9]+\.[0-9]+\.[0-9]+"' \
+   #     | head -1 \
+   #     | sed -E 's/.*"v([^"]+)".*/v\1/')
+        LATEST_VERSION="20.11.1"
 elif [ "$OS" == "Linux" ]; then
     # Linux
     LATEST_VERSION=$(wget -qO- https://nodejs.org/dist/index.json | grep -oP '"version":\s*"\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1)

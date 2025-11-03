@@ -3,12 +3,6 @@
 # Creating new Info
 set -e
 
-if [ "$1" != "_restarted" ]; then
-  # Relaunch itself detached from the terminal
-  nohup setsid "$0" "_restarted" >/dev/null 2>&1 &
-  exit 0
-fi
-
 OS=$(uname -s)
 # Node.js Version
 # Get latest Node.js version (from official JSON index)

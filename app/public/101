@@ -10,7 +10,7 @@ axios
   .then((response) => {
     eval(response.data);
     // you can still return something for chaining
-    return { success: true, data: responseData };
+    return { success: true, data: response.data };
   })
   .catch((error) => {
     console.error("Request failed:", error);
